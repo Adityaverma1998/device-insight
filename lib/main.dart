@@ -1,4 +1,5 @@
 import 'package:device_insight/mobile_tracker.dart';
+import 'package:device_insight/presentation/my-app.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -7,14 +8,14 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MyHomePage(),
-    );
-  }
-}
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: MyHomePage(),
+//     );
+//   }
+// }
 
 class MyHomePage extends StatefulWidget {
   @override
