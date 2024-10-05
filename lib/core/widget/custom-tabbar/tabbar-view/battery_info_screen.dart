@@ -22,7 +22,7 @@ class _BatteryInfoScreenState extends State<BatteryInfoScreen> {
       _deviceInfoStore.updateBatteryInfo(batteryInfo);
     });
   }
-
+m
   @override
   void dispose() {
     _batteryInfoSubscription.cancel(); // Cancel the stream subscription when the widget is disposed
