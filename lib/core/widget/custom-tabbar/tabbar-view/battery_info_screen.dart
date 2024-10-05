@@ -40,7 +40,7 @@ class _BatteryInfoScreenState extends State<BatteryInfoScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
                 decoration: const BoxDecoration(
                   color: Colors.red,
-                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
                 ),
                 child: Column(
                   children: [
@@ -79,38 +79,58 @@ class _BatteryInfoScreenState extends State<BatteryInfoScreen> {
               );
             },
           ),
-          // Observer(
-          //   builder: (_) {
-          //     final deviceData = _deviceInfoStore.batteryInfo; // Convert store data to a map
-          //     return Table(
-          //       border: TableBorder.all(),
-          //       children: deviceData.map((entry) {
-          //         return TableRow(
-          //           children: [
-          //             Container(
-          //               padding: EdgeInsets.all(8.0),
-          //               color: Colors.blueGrey[50],
-          //               child: Text(
-          //                 entry.key,
-          //                 style: TextStyle(color: Colors.black),
-          //               ),
-          //             ),
-          //             Container(
-          //               padding: EdgeInsets.all(8.0),
-          //               color: Colors.blueGrey[100],
-          //               child: Text(
-          //                 entry.value.toString(),
-          //                 style: TextStyle(color: Colors.blue),
-          //               ),
-          //             ),
-          //           ],
-          //         );
-          //       }).toList(),
-          //     );
-          //   },
-          // ),
+          const SizedBox(height: 8.0,),
+          Observer(
+            builder: (_) {
+              return Container(
+                width: MediaQuery.of(context).size.width*1,
+                padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                decoration: const BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildRowDataWidget('Temperature',_deviceInfoStore.batteryInfo.batteryTemperature),
+                    _buildRowDataWidget('Health',_deviceInfoStore.batteryInfo.batteryHealth),
+                    _buildRowDataWidget('Power Source',_deviceInfoStore.batteryInfo.batteryPowerSource),
+                    _buildRowDataWidget('Technology',_deviceInfoStore.batteryInfo.batteryTechnology),
+                    _buildRowDataWidget('Voltage',_deviceInfoStore.batteryInfo.batteryVoltage),
+                    _buildRowDataWidget('Capacity(System Data)',_deviceInfoStore.batteryInfo.batteryCapacity),
+                  ],
+                ),
+              );
+            },
+          ),
+
         ],
       ),
+    );
+  }
+
+  Widget _buildRowDataWidget(String label,String value){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+
+      children: [
+        Text(label,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+        const SizedBox(width: 2.0,),
+        Text(value,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+
+      ],
     );
   }
 }
