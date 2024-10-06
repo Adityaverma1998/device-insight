@@ -33,7 +33,7 @@ abstract class _DeviceInfoStore with Store {
     tags: 'Unknown',
     user: 'Unknown',
     time: 'Unknown',
-    sdkInt: "", // This remains null
+    sdkInt: "Unknown", // This remains null
   );
 
   // Action to update the battery info from a JSON
@@ -44,7 +44,7 @@ abstract class _DeviceInfoStore with Store {
   }
   @action
   void updateSystemInfo(Map<String, dynamic> json) {
-    print(' check update system info sotre info $json');
+    print(' check update system info store  info $json');
     deviceInfo = DeviceInfoEntity.fromJson(json);
   }
 
