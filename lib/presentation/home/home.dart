@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:device_insight/core/store/device_info/device_info_store.dart';
 import 'package:device_insight/core/widget/custom-tabbar/tabbar-view/battery_info_screen.dart';
+import 'package:device_insight/core/widget/custom-tabbar/tabbar-view/display_info_screen.dart';
 import 'package:device_insight/core/widget/custom-tabbar/tabbar/custom_tabbar.dart';
 import 'package:device_insight/core/widget/primary_layout/primary_layout.dart';
 import 'package:device_insight/di/serivce_locators.dart';
@@ -15,11 +16,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Stream<Map<String, dynamic>> _batteryInfoStream;
 
   final DeviceInfoStore _deviceInfoStore = getIt<DeviceInfoStore>();
 
   late StreamSubscription<Map<String, dynamic>> _batteryInfoSubscription;
+  late StreamSubscription<Map<String, dynamic>> _systemInfoSubscription;
+  late StreamSubscription<Map<String, dynamic>> _displayInfoSubscription;
+  late StreamSubscription<Map<String, dynamic>> _cpuInfoSubscription;
    final MobileTracker _mobileTracker = MobileTracker();
 
   @override
@@ -31,29 +34,22 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _startListeningToBatteryInfo() {
-    _batteryInfoSubscription = MobileTracker.batteryInfoStream.listen(
-          (batteryInfo) {
+    _batteryInfoSubscription = MobileTracker.batteryInfoStream.listen((batteryInfo) {
 
-            print('check battery info Stream listen $batteryInfo');
-        if (batteryInfo.isNotEmpty) {
-          try {
-            _deviceInfoStore.updateBatteryInfo(batteryInfo);
-            setState(() {}); // Trigger UI update
-          } catch (error) {
-            print('Error in processing battery info: $error');
-          }
-        } else {
-          print('Received empty battery info.');
-        }
-      },
-      onError: (error) {
-        print('Error occurred in batteryInfoStream: $error');
-      },
-      onDone: () {
-        print('Stream closed');
-      },
-      cancelOnError: true,
-    );
+      _deviceInfoStore.updateBatteryInfo(batteryInfo);
+    });
+    _systemInfoSubscription = MobileTracker.systemInfoStream.listen((batteryInfo) {
+
+      // _deviceInfoStore.updateBatteryInfo(batteryInfo);
+    });
+    _displayInfoSubscription = MobileTracker.deviceInfoStream.listen((batteryInfo) {
+
+      // _deviceInfoStore.updateBatteryInfo(batteryInfo);
+    });
+    _cpuInfoSubscription = MobileTracker.cpuInfoStream.listen((batteryInfo) {
+
+      // _deviceInfoStore.updateBatteryInfo(batteryInfo);
+    });
   }
 
   @override
@@ -62,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  List<String> tabLists = ['Dashboard'];
+  List<String> tabLists = ['Dashboard','System'];
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           CustomTabbarScreen(
             tabLists: tabLists,
-            tabWidgets: [BatteryInfoScreen()],
+            tabWidgets: [BatteryInfoScreen(),DisplayInfoScreen()],
           ),
         ],
       ),

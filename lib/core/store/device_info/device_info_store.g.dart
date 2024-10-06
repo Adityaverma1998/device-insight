@@ -25,6 +25,22 @@ mixin _$DeviceInfoStore on _DeviceInfoStore, Store {
     });
   }
 
+  late final _$deviceInfoAtom =
+      Atom(name: '_DeviceInfoStore.deviceInfo', context: context);
+
+  @override
+  DeviceInfoEntity get deviceInfo {
+    _$deviceInfoAtom.reportRead();
+    return super.deviceInfo;
+  }
+
+  @override
+  set deviceInfo(DeviceInfoEntity value) {
+    _$deviceInfoAtom.reportWrite(value, super.deviceInfo, () {
+      super.deviceInfo = value;
+    });
+  }
+
   late final _$_DeviceInfoStoreActionController =
       ActionController(name: '_DeviceInfoStore', context: context);
 
@@ -40,9 +56,21 @@ mixin _$DeviceInfoStore on _DeviceInfoStore, Store {
   }
 
   @override
+  void updateSystemInfo(Map<String, dynamic> json) {
+    final _$actionInfo = _$_DeviceInfoStoreActionController.startAction(
+        name: '_DeviceInfoStore.updateSystemInfo');
+    try {
+      return super.updateSystemInfo(json);
+    } finally {
+      _$_DeviceInfoStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-batteryInfo: ${batteryInfo}
+batteryInfo: ${batteryInfo},
+deviceInfo: ${deviceInfo}
     ''';
   }
 }

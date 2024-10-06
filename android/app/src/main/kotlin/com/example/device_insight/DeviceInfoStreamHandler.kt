@@ -10,16 +10,11 @@ import android.view.WindowManager
 import android.os.Build
 import kotlin.math.sqrt
 import java.io.File
-import java.io.BufferedReader
-import java.io.FileInputStream
-import java.io.InputStreamReader
-import java.io.IOException
+import android.provider.Settings
 import io.flutter.plugin.common.EventChannel
-
-import android.app.Activity
-import io.flutter.plugin.common.BinaryMessenger
-import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener
 import android.util.Log
+import io.flutter.plugin.common.BinaryMessenger
+
 
 private val DEVICE_INFO_CHANNEL = "com.example.device_insight/deviceInfo"
 
@@ -62,10 +57,6 @@ class DeviceInfoStreamHandler(
             val metrics = DisplayMetrics()
             (context?.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getMetrics(metrics)
 
-            val activityManager = context?.getSystemService(Context.ACTIVITY_SERVICE) as android.app.ActivityManager
-            val memoryInfo = android.app.ActivityManager.MemoryInfo()
-            activityManager.getMemoryInfo(memoryInfo)
-
             val internalStorage = getStorageInfo(Environment.getDataDirectory())
             val externalStorage = if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
                 getStorageInfo(Environment.getExternalStorageDirectory())
@@ -78,20 +69,25 @@ class DeviceInfoStreamHandler(
             val screenSizeInInches =
                 sqrt(screenWidthInInches * screenWidthInInches + screenHeightInInches * screenHeightInInches)
 
+            val reqString = "${Build.MANUFACTURER} ${Build.MODEL} ${Build.VERSION.RELEASE} " +
+                    "${Build.VERSION_CODES::class.java.getFields()[Build.VERSION.SDK_INT].name}"
+
+
             return mapOf(
                 "Model" to Build.MODEL,
                 "Manufacturer" to Build.MANUFACTURER,
                 "Brand" to Build.BRAND,
                 "Board" to Build.BOARD,
                 "Hardware" to Build.HARDWARE,
-                "ScreenSize" to "%.2f inches".format(screenSizeInInches),
-                "ScreenResolution" to "${metrics.widthPixels} x ${metrics.heightPixels} pixels",
-                "ScreenDensity" to "${metrics.densityDpi} dpi",
-                "TotalRAM" to "${memoryInfo.totalMem / (1024 * 1024)} MB",
-                "AvailableRAM" to "${memoryInfo.availMem / (1024 * 1024)} MB",
-                "TotalInternalStorage" to internalStorage["TotalStorage"]!! + " GB",
-                "AvailableInternalStorage" to internalStorage["AvailableStorage"]!! + " GB",
-            )
+                "Host" to Build.HOST,
+                "Base" to "${Build.VERSION_CODES.BASE}",
+                "AndroidDeviceID" to Settings.Secure.getString(context?.contentResolver, Settings.Secure.ANDROID_ID),
+                "BuildFingerprint" to Build.FINGERPRINT,
+                "SDK_INT" to Build.VERSION.SDK_INT.toString(),
+                "Tags" to Build.TAGS,
+                "Time" to Build.TIME.toString(),
+                "User" to Build.USER,
+                )
         } catch (e: Exception) {
             Log.d("DeviceInfoStreamHandler", "Exception: $e")
 

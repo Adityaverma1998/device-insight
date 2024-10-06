@@ -17,12 +17,13 @@ class _BatteryInfoScreenState extends State<BatteryInfoScreen> {
   @override
   void initState() {
     super.initState();
+
     _batteryInfoSubscription = MobileTracker.batteryInfoStream.listen((batteryInfo) {
 
       _deviceInfoStore.updateBatteryInfo(batteryInfo);
     });
   }
-m
+
   @override
   void dispose() {
     _batteryInfoSubscription.cancel(); // Cancel the stream subscription when the widget is disposed

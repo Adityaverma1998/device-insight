@@ -1,52 +1,45 @@
-class DeviceInfo {
+class DeviceInfoEntity {
   String model;
   String manufacturer;
   String brand;
   String board;
   String hardware;
-  double screenSize;
-  String screenResolution;
-  int screenDensity;
-  int totalRAM;
-  int availableRAM;
-  double totalInternalStorage;
-  double availableInternalStorage;
-  double totalExternalStorage;
-  double availableExternalStorage;
+  String buildFingerprint;
+  String androidDeviceID;
+  String tags;
+  String user;
+  String time;
+  String sdkInt;
 
-  DeviceInfo({
+  DeviceInfoEntity({
     required this.model,
     required this.manufacturer,
     required this.brand,
     required this.board,
     required this.hardware,
-    required this.screenSize,
-    required this.screenResolution,
-    required this.screenDensity,
-    required this.totalRAM,
-    required this.availableRAM,
-    required this.totalInternalStorage,
-    required this.availableInternalStorage,
-    required this.totalExternalStorage,
-    required this.availableExternalStorage,
+    required this.buildFingerprint,
+    required this.androidDeviceID,
+    required this.tags,
+    required this.user,
+    required this.time,
+    required this.sdkInt,
+
   });
 
-  factory DeviceInfo.fromJson(Map<String, dynamic> json) {
-    return DeviceInfo(
+  factory DeviceInfoEntity.fromJson(Map<String, dynamic> json) {
+    return DeviceInfoEntity(
       model: json["Model"] as String,
       manufacturer: json["Manufacturer"] as String,
       brand: json["Brand"] as String,
       board: json["Board"] as String,
       hardware: json["Hardware"] as String,
-      screenSize: (json["ScreenSize"] as num).toDouble(),
-      screenResolution: json["ScreenResolution"] as String,
-      screenDensity: json["ScreenDensity"] as int,
-      totalRAM: json["TotalRAM"] as int,
-      availableRAM: json["AvailableRAM"] as int,
-      totalInternalStorage: (json["TotalInternalStorage"] as num).toDouble(),
-      availableInternalStorage: (json["AvailableInternalStorage"] as num).toDouble(),
-      totalExternalStorage: (json["TotalExternalStorage"] as num).toDouble(),
-      availableExternalStorage: (json["AvailableExternalStorage"] as num).toDouble(),
+      buildFingerprint: json["BuildFingerprint"] as String,
+      androidDeviceID: json["AndroidDeviceID"] as String,
+      tags: json["Tags"] as String,
+      user: json["User"] as String,
+      time: json["Time"] as String,
+      sdkInt: json["SDK_INT"] ,
+
     );
   }
 
@@ -57,15 +50,13 @@ class DeviceInfo {
       "Brand": brand,
       "Board": board,
       "Hardware": hardware,
-      "ScreenSize": screenSize,
-      "ScreenResolution": screenResolution,
-      "ScreenDensity": screenDensity,
-      "TotalRAM": totalRAM,
-      "AvailableRAM": availableRAM,
-      "TotalInternalStorage": totalInternalStorage,
-      "AvailableInternalStorage": availableInternalStorage,
-      "TotalExternalStorage": totalExternalStorage,
-      "AvailableExternalStorage": availableExternalStorage,
+      "BuildFingerprint": buildFingerprint,
+      "AndroidDeviceID": androidDeviceID,
+      "Tags": tags,
+      "User": user,
+      "Time": time,
+      "SDK_INT": sdkInt,
+
     };
   }
 }
