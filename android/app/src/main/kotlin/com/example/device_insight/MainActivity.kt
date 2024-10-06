@@ -11,6 +11,7 @@ class MainActivity : FlutterActivity() {
     private val DEVICE_INFO_CHANNEL = "com.example.device_insight/deviceInfo"
     private val SYSTEM_INFO_CHANNEL = "com.example.device_insight/system_info"
     private val CPU_USAGE_CHANNEL = "com.example.device_insight/cpu_usage_channel"
+    private val MOBILE_NETWORK_CHANNEL = "com.example.device_insight/mobileNetworkDetails"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,10 @@ class MainActivity : FlutterActivity() {
                 .setStreamHandler(SystemInfoStreamHandler(binaryMessenger, applicationContext))
 
             EventChannel(binaryMessenger, CPU_USAGE_CHANNEL)
-                .setStreamHandler(CpuInfoStreamHandler(binaryMessenger)) // Removed applicationContext
+                .setStreamHandler(CpuInfoStreamHandler(binaryMessenger))
+
+            EventChannel(binaryMessenger,MOBILE_NETWORK_CHANNEL)
+                .setStreamHandler(MobileNetworkStreamHandler(binaryMessenger, applicationContext))
         }
     }
 }

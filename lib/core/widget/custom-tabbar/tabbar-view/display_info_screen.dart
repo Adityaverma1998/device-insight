@@ -25,7 +25,7 @@ class _DisplayInfoScreenState extends State<DisplayInfoScreen> {
     _deviceInfoSubscription = MobileTracker.deviceInfoStream.listen((deviceInfo) {
       print('check device info data before update $deviceInfo');
 
-      _deviceInfoStore.updateSystemInfo(deviceInfo);
+      _deviceInfoStore.updateDeviceInfo(deviceInfo);
     });
   }
 

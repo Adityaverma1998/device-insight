@@ -1,4 +1,4 @@
-package dev.bucle.system_information
+package com.example.device_insight
 
 import android.content.BroadcastReceiver
 import android.content.Context

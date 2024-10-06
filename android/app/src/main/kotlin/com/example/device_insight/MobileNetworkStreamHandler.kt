@@ -1,4 +1,4 @@
-package dev.bucle.system_information
+package com.example.device_insight
 
 import android.Manifest
 import android.content.Context
@@ -12,9 +12,9 @@ import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener
 import android.util.Log
 
-private const val MOBILE_NETWORK_CHANNEL = "dev.bucle.tracker/events/mobileNetworkDetails"
-
 data class SignalStrengthInfo(val sim1Signal: Int?, val sim2Signal: Int?)
+
+private val MOBILE_NETWORK_CHANNEL = "com.example.device_insight/mobileNetworkDetails"
 
 class MobileNetworkStreamHandler(
         binaryMessenger: BinaryMessenger,

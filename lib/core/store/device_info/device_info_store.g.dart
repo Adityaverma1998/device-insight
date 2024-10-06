@@ -56,6 +56,17 @@ mixin _$DeviceInfoStore on _DeviceInfoStore, Store {
   }
 
   @override
+  void updateDeviceInfo(Map<String, dynamic> json) {
+    final _$actionInfo = _$_DeviceInfoStoreActionController.startAction(
+        name: '_DeviceInfoStore.updateDeviceInfo');
+    try {
+      return super.updateDeviceInfo(json);
+    } finally {
+      _$_DeviceInfoStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void updateSystemInfo(Map<String, dynamic> json) {
     final _$actionInfo = _$_DeviceInfoStoreActionController.startAction(
         name: '_DeviceInfoStore.updateSystemInfo');
