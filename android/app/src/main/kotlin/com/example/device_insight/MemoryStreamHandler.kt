@@ -1,7 +1,6 @@
 package com.example.device_insight
 
 import android.content.Context
-import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.app.ActivityManager
@@ -10,6 +9,10 @@ import io.flutter.plugin.common.EventChannel
 import java.io.File
 import android.util.Log
 import io.flutter.plugin.common.BinaryMessenger
+import android.os.Environment
+import java.io.BufferedReader
+import java.io.FileReader
+import java.io.IOException
 
 private val MEMORY_CHANNEL = "com.example.device_insight/memory"
 
@@ -44,7 +47,7 @@ class MemoryStreamHandler(
                 val externalStorageInfo = if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
                     getStorageInfo(Environment.getExternalStorageDirectory())
                 } else {
-                    mapOf("TotalStorage" to "Not available", "AvailableStorage" to "Not available")
+                    mapOf("TotalStorage" to "Not available", "AvailableStorage" to "Not available", "UsedPercentage" to "Not available")
                 }
 
                 val totalMemoryGB = "%.2f".format(memoryInfo.totalMem / (1024.0 * 1024.0 * 1024.0)) // GB
@@ -52,6 +55,7 @@ class MemoryStreamHandler(
                 val usedMemoryGB = "%.2f".format((memoryInfo.totalMem - memoryInfo.availMem) / (1024.0 * 1024.0 * 1024.0)) // GB
                 val ramType = getRamType() // Get RAM type
                 val ramTechnology = getRamTechnology() // Get RAM technology
+                val ramBrandName = getRamBrandName() // Get RAM brand name
 
                 val memoryInfoMap = mapOf(
                     "TotalMemory" to totalMemoryGB,
@@ -60,10 +64,11 @@ class MemoryStreamHandler(
                     "LowMemory" to memoryInfo.lowMemory.toString(),
                     "RAMType" to ramType,
                     "RAMTechnology" to ramTechnology,
+                    "RAMBrandName" to ramBrandName,
                     "TotalInternalStorage" to internalStorageInfo["TotalStorage"],
                     "AvailableInternalStorage" to internalStorageInfo["AvailableStorage"],
-                    "UsedInternalStoragePercentage" to internalStorageInfo["UsedPercentage"],
-                    "UsedExternalStoragePercentage" to externalStorageInfo["UsedPercentage"]
+//                    "UsedInternalStoragePercentage" to internalStorageInfo["UsedPercentage"],
+//                    "UsedExternalStoragePercentage" to externalStorageInfo["UsedPercentage"]
                 )
 
                 Log.d("MemoryInfoStreamHandler", "Memory Info Map: $memoryInfoMap")
@@ -103,15 +108,45 @@ class MemoryStreamHandler(
 
     private fun getRamType(): String {
         val ramType = getSystemProperty("ro.ramtype") ?: "Unknown"
-        Log.d("MemoryInfoStreamHandler", "RAM Type: $ramType")
+        if (ramType.isEmpty()) {
+            Log.d("MemoryInfoStreamHandler", "RAM Type property not found or empty")
+        } else {
+            Log.d("MemoryInfoStreamHandler", "RAM Type: $ramType")
+        }
         return ramType
     }
 
     private fun getRamTechnology(): String {
         val ramTechnology = getSystemProperty("ro.ramtechnology") ?: "Unknown"
-        Log.d("MemoryInfoStreamHandler", "RAM Technology: $ramTechnology")
+        if (ramTechnology.isEmpty()) {
+            Log.d("MemoryInfoStreamHandler", "RAM Technology property not found or empty")
+        } else {
+            Log.d("MemoryInfoStreamHandler", "RAM Technology: $ramTechnology")
+        }
         return ramTechnology
     }
+
+    private fun getRamBrandName(): String {
+        // Try to read RAM brand from /proc/meminfo
+        return try {
+            val reader = BufferedReader(FileReader("/proc/meminfo"))
+            var line: String?
+            while (reader.readLine().also { line = it } != null) {
+                // Log the line read
+                Log.d("DeviceInfoProvider", "MemTotal: $line")
+
+                if (line!!.contains("MemTotal")) {
+                    return "RAM Brand Info: $line"
+                }
+            }
+            reader.close()
+            "Unknown RAM Brand"
+        } catch (e: IOException) {
+            Log.e("DeviceInfoProvider", "Error reading RAM brand info", e)
+            "Unknown RAM Brand"
+        }
+    }
+
 
     // Helper method to get system properties
     private fun getSystemProperty(key: String): String? {

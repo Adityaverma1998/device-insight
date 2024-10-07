@@ -35,7 +35,7 @@ class _CustomTabbarScreenState extends State<CustomTabbarScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            // color: Colors.red,
+            color: Colors.red,
             margin: const EdgeInsets.only(bottom: 8.0,left: 16.0,right: 16.0),
             width: double.infinity,
             child: ClipRRect(
