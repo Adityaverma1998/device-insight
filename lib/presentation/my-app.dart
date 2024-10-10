@@ -2,7 +2,6 @@
 import 'package:device_insight/constant/app_theme.dart';
 import 'package:device_insight/constant/strings.dart';
 import 'package:device_insight/presentation/home/home.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
@@ -34,7 +33,7 @@ class MyApp  extends StatelessWidget{
           //   // Built-in localization of basic text for Cupertino widgets
           //   GlobalCupertinoLocalizations.delegate,
           // ],
-          home: HomeScreen(),
+          home: const HomeScreen(),
         );
       },
     );

@@ -1,5 +1,7 @@
 import 'package:device_insight/domain/entity/system_info/battery_info.dart';
+import 'package:device_insight/domain/entity/system_info/cpu_usage_info.dart';
 import 'package:device_insight/domain/entity/system_info/device_info.dart';
+import 'package:device_insight/domain/entity/system_info/memory_info.dart';
 import 'package:device_insight/domain/entity/system_info/system_info.dart';
 import 'package:mobx/mobx.dart';
 
@@ -23,6 +25,7 @@ abstract class _DeviceInfoStore with Store {
     batteryCapacity: 'Unknown',
   );
 
+
   @observable
   DeviceInfoEntity deviceInfo = DeviceInfoEntity(
     model: 'Unknown',
@@ -37,7 +40,7 @@ abstract class _DeviceInfoStore with Store {
     time: 'Unknown',
     sdkInt: "Unknown", // This remains null
   );
-
+  @observable
   SystemInfo systemInfo = SystemInfo(
       androidVersion: 'Unknown',
       apiLevel: "Unknown",
@@ -56,6 +59,38 @@ abstract class _DeviceInfoStore with Store {
       dynamicPartition: false,
       projectTreble: false);
 
+  @observable
+  MemoryInfo memoryInfo = MemoryInfo(availableRam: "Unknown",
+      totalRam: 'Unknown',
+      usedRam: 'Unknown',
+      availableStorage: 'Unknown',
+      internalStorage: 'Unknown',
+      ramBrand: 'Unknown',
+      ramType: 'Unknown',
+      technology: 'Unknown',
+      lowMemory: false);
+
+  @observable
+  CpuUsageInfo cpuUsageInfo = CpuUsageInfo(processor: "Unknown",
+      bogoMIPS: "Unknown",
+      features: "Unknown",
+      cpuImplementer: "Unknown",
+      cpuArchitecture:"Unknown" ,
+      cpuVariant: "Unknown",
+      cpuPart: "Unknown",
+      cpuRevision:  "Unknown",
+      hardware: "Unknown",
+      architecture: "Unknown",
+      revision: "Unknown",
+      process: "Unknown",
+      clockSpeed: "Unknown",
+      cores: "Unknown",
+      cpuLoad:"Unknown",
+      coreSpeeds: {},
+      gpuVendor: "Unknown",
+      gpuRenderer: "Unknown",
+      gpuLoad: "Unknown");
+
   // Action to update the battery info from a JSON
   @action
   void updateBatteryInfo(Map<String, dynamic> json) {
@@ -68,9 +103,21 @@ abstract class _DeviceInfoStore with Store {
     print(' check update system info store  info $json');
     deviceInfo = DeviceInfoEntity.fromJson(json);
   }
+
   @action
   void updateSystemInfo(Map<String, dynamic> json) {
     print(' check update system info store  info $json');
     systemInfo = SystemInfo.fromJson(json);
+  }
+
+  @action
+  void updateMemoryInfo(Map<String, dynamic> json) {
+    print(' check update memory info $json');
+    memoryInfo = MemoryInfo.fromJson(json);
+  }
+  @action
+  void updateCpuUsageInfo(Map<String, dynamic> json) {
+    print(' check update cpu  info $json');
+    cpuUsageInfo = CpuUsageInfo.fromJson(json);
   }
 }

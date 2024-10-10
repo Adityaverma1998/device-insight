@@ -41,6 +41,54 @@ mixin _$DeviceInfoStore on _DeviceInfoStore, Store {
     });
   }
 
+  late final _$systemInfoAtom =
+      Atom(name: '_DeviceInfoStore.systemInfo', context: context);
+
+  @override
+  SystemInfo get systemInfo {
+    _$systemInfoAtom.reportRead();
+    return super.systemInfo;
+  }
+
+  @override
+  set systemInfo(SystemInfo value) {
+    _$systemInfoAtom.reportWrite(value, super.systemInfo, () {
+      super.systemInfo = value;
+    });
+  }
+
+  late final _$memoryInfoAtom =
+      Atom(name: '_DeviceInfoStore.memoryInfo', context: context);
+
+  @override
+  MemoryInfo get memoryInfo {
+    _$memoryInfoAtom.reportRead();
+    return super.memoryInfo;
+  }
+
+  @override
+  set memoryInfo(MemoryInfo value) {
+    _$memoryInfoAtom.reportWrite(value, super.memoryInfo, () {
+      super.memoryInfo = value;
+    });
+  }
+
+  late final _$cpuUsageInfoAtom =
+      Atom(name: '_DeviceInfoStore.cpuUsageInfo', context: context);
+
+  @override
+  CpuUsageInfo get cpuUsageInfo {
+    _$cpuUsageInfoAtom.reportRead();
+    return super.cpuUsageInfo;
+  }
+
+  @override
+  set cpuUsageInfo(CpuUsageInfo value) {
+    _$cpuUsageInfoAtom.reportWrite(value, super.cpuUsageInfo, () {
+      super.cpuUsageInfo = value;
+    });
+  }
+
   late final _$_DeviceInfoStoreActionController =
       ActionController(name: '_DeviceInfoStore', context: context);
 
@@ -78,10 +126,35 @@ mixin _$DeviceInfoStore on _DeviceInfoStore, Store {
   }
 
   @override
+  void updateMemoryInfo(Map<String, dynamic> json) {
+    final _$actionInfo = _$_DeviceInfoStoreActionController.startAction(
+        name: '_DeviceInfoStore.updateMemoryInfo');
+    try {
+      return super.updateMemoryInfo(json);
+    } finally {
+      _$_DeviceInfoStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updateCpuUsageInfo(Map<String, dynamic> json) {
+    final _$actionInfo = _$_DeviceInfoStoreActionController.startAction(
+        name: '_DeviceInfoStore.updateCpuUsageInfo');
+    try {
+      return super.updateCpuUsageInfo(json);
+    } finally {
+      _$_DeviceInfoStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 batteryInfo: ${batteryInfo},
-deviceInfo: ${deviceInfo}
+deviceInfo: ${deviceInfo},
+systemInfo: ${systemInfo},
+memoryInfo: ${memoryInfo},
+cpuUsageInfo: ${cpuUsageInfo}
     ''';
   }
 }

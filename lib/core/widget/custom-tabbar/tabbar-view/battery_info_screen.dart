@@ -6,6 +6,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'dart:async'; // Required for StreamSubscription
 
 class BatteryInfoScreen extends StatefulWidget {
+  const BatteryInfoScreen({super.key});
+
   @override
   State<BatteryInfoScreen> createState() => _BatteryInfoScreenState();
 }
@@ -57,7 +59,7 @@ class _BatteryInfoScreenState extends State<BatteryInfoScreen> {
                           ),
                         ),
                         const SizedBox(width: 8.0,),
-                        Text('${_deviceInfoStore.batteryInfo.batteryStatus}'),
+                        Text(_deviceInfoStore.batteryInfo.batteryStatus),
                       ],
                     ),
                     Row(
@@ -72,7 +74,7 @@ class _BatteryInfoScreenState extends State<BatteryInfoScreen> {
                           ),
                         ),
                         const SizedBox(width: 2.0,),
-                        Text('${_deviceInfoStore.batteryInfo.batteryCurrent}'),
+                        Text(_deviceInfoStore.batteryInfo.batteryCurrent),
                       ],
                     ),
                   ],

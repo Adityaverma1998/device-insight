@@ -6,7 +6,7 @@ class CustomTabbarScreen extends StatefulWidget {
   final List<Widget> tabWidgets;
 
 
-  CustomTabbarScreen({required this.tabLists, required this.tabWidgets});
+  const CustomTabbarScreen({super.key, required this.tabLists, required this.tabWidgets});
 
   @override
   State<CustomTabbarScreen> createState() => _CustomTabbarScreenState();
@@ -29,60 +29,48 @@ class _CustomTabbarScreenState extends State<CustomTabbarScreen>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      initialIndex: 0,
       length: widget.tabLists.length,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        // mainAxisAlignment: MainAxisAlignment.start,
+        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            color: Colors.red,
-            margin: const EdgeInsets.only(bottom: 8.0,left: 16.0,right: 16.0),
-            width: double.infinity,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(18.0)),
-              child: TabBar(
-                // tabAlignment: TabAlignment.center,
+            color:Colors.red,
+            width: MediaQuery.of(context).size.width,
+            height: 80,
+            child: TabBar(
 
-                tabs: List.generate(
-                  widget.tabLists.length,
-                      (index) => Tab(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 18),
-                      child: Text(
-                        widget.tabLists[index],
-
-                      ),
-                    ),
+              tabs: List.generate(
+                widget.tabLists.length,
+                    (index) => Tab(
+                  child: Center(
+                    child: Text(widget.tabLists[index]),
                   ),
                 ),
-                controller: _tabController,
-                indicatorSize: TabBarIndicatorSize.tab,
-                isScrollable: true,
-                padding: EdgeInsets.zero,
-                dividerHeight: 0,
-                dividerColor: Colors.transparent,
-                labelPadding: EdgeInsets.zero,
-                unselectedLabelColor: Color.fromRGBO(217, 217, 217, 0.72),
-                labelColor: Theme.of(context).primaryColor,
-                indicator: const UnderlineTabIndicator(
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                    width: 0.5,
-                  ),
+              ),
+              controller: _tabController,
+              isScrollable: true,
+              indicatorSize: TabBarIndicatorSize.tab,
+              unselectedLabelColor: const Color.fromRGBO(217, 217, 217, 0.72),
+              labelColor: Theme.of(context).primaryColor,
+              indicator: ShapeDecoration(
+                color: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.0),
                 ),
-                indicatorPadding: EdgeInsets.zero,
-                labelStyle:  Theme.of(context).textTheme.labelMedium?.copyWith(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                  height: 1.3,
-                ),
-
+              ),
+              indicatorPadding: const EdgeInsets.symmetric(horizontal: 2.0,vertical: 4.0),
+              labelStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+                height: 0.5,
               ),
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.0,vertical: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8.0),
             height: MediaQuery.of(context).size.height * 0.8,
             child: TabBarView(
               controller: _tabController,

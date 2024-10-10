@@ -61,7 +61,7 @@ class MemoryStreamHandler(
                     "TotalMemory" to totalMemoryGB,
                     "AvailableMemory" to availableMemoryGB,
                     "UsedMemory" to usedMemoryGB,
-                    "LowMemory" to memoryInfo.lowMemory.toString(),
+                    "LowMemory" to memoryInfo.lowMemory,
                     "RAMType" to ramType,
                     "RAMTechnology" to ramTechnology,
                     "RAMBrandName" to ramBrandName,

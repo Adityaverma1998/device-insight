@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PrimaryLayout extends StatelessWidget{
@@ -12,7 +11,7 @@ class PrimaryLayout extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Device Insight"),
+        title: const Text("Device Insight"),
       ),
       body: child,
 

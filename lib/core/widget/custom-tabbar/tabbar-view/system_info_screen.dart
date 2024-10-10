@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SystemInfoScreen extends StatefulWidget {
-  const SystemInfoScreen({Key? key}) : super(key: key);
+  const SystemInfoScreen({super.key});
 
   @override
   _SystemInfoScreenState createState() => _SystemInfoScreenState();

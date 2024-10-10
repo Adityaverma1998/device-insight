@@ -18,6 +18,9 @@ import 'package:device_insight/mobile_tracker.dart';
 import 'package:flutter/cupertino.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
@@ -52,13 +55,17 @@ class _HomeScreenState extends State<HomeScreen> {
         MobileTracker.deviceInfoStream.listen((batteryInfo) {
       // _deviceInfoStore.updateBatteryInfo(batteryInfo);
     });
-    _cpuInfoSubscription = MobileTracker.cpuInfoStream.listen((batteryInfo) {
+    _cpuInfoSubscription = MobileTracker.cpuInfoStream.listen((cpuUsageInfo) {
       // _deviceInfoStore.updateBatteryInfo(batteryInfo);
+      print('check cpu usage info data before update $cpuUsageInfo');
+
+      _deviceInfoStore.updateCpuUsageInfo(cpuUsageInfo);
     });
 
     _memoryInfoSubscription =
         MobileTracker.memoryInfoStream.listen((memoryInfo) {
       print('check memory info data before update $memoryInfo');
+      _deviceInfoStore.updateMemoryInfo(memoryInfo);
 
       // _deviceInfoStore.updatememoryInfo(memoryInfo);
     });
@@ -66,8 +73,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    _batteryInfoSubscription
-        .cancel(); // Cancel the subscription when the widget is disposed
+    _batteryInfoSubscription.cancel();
+    _systemInfoSubscription.cancel();
+    _displayInfoSubscription.cancel();
+    _cpuInfoSubscription.cancel();
+    _memoryInfoSubscription.cancel();
     super.dispose();
   }
 
@@ -92,17 +102,17 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           CustomTabbarScreen(
             tabLists: tabLists,
-            tabWidgets: [
-              const DashboardScreen(),
-              const SystemInfoScreen(),
-              const DeviceInfoScreen(),
-              const DisplayInfoScreen(),
+            tabWidgets: const [
+              DashboardScreen(),
+              SystemInfoScreen(),
+              DeviceInfoScreen(),
+              DisplayInfoScreen(),
               BatteryInfoScreen(),
-              const NetworkScreenInfo(),
-              const CpuInfoScreen(),
-              const MemoryInfoScreen(),
-              const CameraInfoScreen(),
-              const ThermalInfoScreen(),
+              NetworkScreenInfo(),
+              CpuInfoScreen(),
+              MemoryInfoScreen(),
+              CameraInfoScreen(),
+              ThermalInfoScreen(),
             ],
           ),
         ],

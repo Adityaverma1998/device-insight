@@ -35,11 +35,11 @@ class AppThemeData {
       ),
       // badgeTheme: colorScheme.secondaryContainer,
       iconTheme: IconThemeData(color: colorScheme.onSurface),
-      canvasColor: colorScheme.background,
+      canvasColor: colorScheme.surface,
       scaffoldBackgroundColor: colorScheme.primaryContainer,
       highlightColor: Colors.transparent,
       focusColor: focusColor,
-      dividerColor: Color.fromRGBO(147, 147, 147, 1),
+      dividerColor: const Color.fromRGBO(147, 147, 147, 1),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
         backgroundColor: Color.alphaBlend(
@@ -49,7 +49,7 @@ class AppThemeData {
         contentTextStyle: _textTheme.titleMedium!.apply(color: _darkFillColor),
       ),
       colorScheme:
-          colorScheme.copyWith(background: colorScheme.secondaryContainer),
+          colorScheme.copyWith(surface: colorScheme.secondaryContainer),
     );
   }
 
@@ -59,9 +59,7 @@ class AppThemeData {
     // secondary: Color.fromRGBO(19, 196, 159, 1),
     secondary: Color.fromRGBO(61, 61, 61, 1),
     secondaryContainer: Color.fromRGBO(19, 196, 159, 1),
-    background: Color.fromRGBO(15, 25, 34, 1),
     surface: Color(0xFFFAFBFB),
-    onBackground: Color.fromRGBO(221, 221, 221, 1),
     inversePrimary: Color.fromRGBO(30, 46, 59, 1),
     error: _lightFillColor,
     onError: _lightFillColor,
@@ -82,10 +80,7 @@ class AppThemeData {
     primaryContainer: Color.fromRGBO(15, 25, 34, 1),
     secondary: Colors.red,
     secondaryContainer: Color(0xFF451B6F),
-
-    background: Color(0xFF241E30),
     surface: Color(0xFF1F1929),
-    onBackground: Color(0x0DFFFFFF),
     // White with 0.05 opacity
     error: _darkFillColor,
     onError: _darkFillColor,

@@ -8,7 +8,7 @@ void main() async {
   await ServiceLocator.configureDependencies();
 
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 // class MyApp extends StatelessWidget {
@@ -21,6 +21,8 @@ void main() async {
 // }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -51,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
       stream: stream,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
           return Center(child: Text("Error: ${snapshot.error}"));
@@ -73,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Device Info"),
+        title: const Text("Device Info"),
       ),
       body: Column(
         children: [
@@ -81,15 +83,15 @@ class _MyHomePageState extends State<MyHomePage> {
             child: ListView(
               children: [
                 buildStreamInfo(_batteryStream, "Battery"),
-                Divider(),  // Adds separation between Battery and Thermal sections
+                const Divider(),  // Adds separation between Battery and Thermal sections
                 buildStreamInfo(_thermalStream, "Thermal"),
-                Divider(),  // Adds separation between Battery and Thermal sections
+                const Divider(),  // Adds separation between Battery and Thermal sections
                 buildStreamInfo(_memoryStream, "Memory"),
-                Divider(),  // Adds separation between Battery and Thermal sections
+                const Divider(),  // Adds separation between Battery and Thermal sections
                 buildStreamInfo(_deviceStream, "Device"),
-                Divider(),  // Adds separation between Battery and Thermal sections
+                const Divider(),  // Adds separation between Battery and Thermal sections
                 buildStreamInfo(_systemInfoStream, "System Info"),
-                Divider(),  // Adds separation between Battery and Thermal sections
+                const Divider(),  // Adds separation between Battery and Thermal sections
                 buildStreamInfo(_cpuInfoStream, "Cpu Usage Info"),
               ],
             ),
