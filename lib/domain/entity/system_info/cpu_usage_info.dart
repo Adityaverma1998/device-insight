@@ -44,12 +44,9 @@ class CpuUsageInfo {
   factory CpuUsageInfo.fromJson(Map<String, dynamic> json) {
     // Extract the core speeds dynamically (CPU 0, CPU 1, etc.)
     Map<String, dynamic> coreSpeeds = {};
-    print('check for each work without side  $json');
 
     json.forEach((key, value) {
-      print('check for each work key $key and value $value');
 
-      // Check if the key starts with 'CPU ' and try to parse the value as a double
       if (key.startsWith('CPU ') &&
           value is String &&
           key != 'CPU architecture' &&
@@ -62,17 +59,7 @@ class CpuUsageInfo {
       ) {
         coreSpeeds[key] = value;
 
-        // Extract numeric part of the string
-        //   String numericValue = value.split(' ').first;
-        //
-        //   // Convert the numeric value to double if possible
-        //   double? parsedValue = double.tryParse(numericValue);
-        //
-        //   if (parsedValue != null) {
-        //     print('Adding $key: $parsedValue to coreSpeeds');
-        //   } else {
-        //     print('Unable to parse $value as double');
-        //   }
+
       }
     });
 
@@ -121,7 +108,6 @@ class CpuUsageInfo {
       "GPU Load": gpuLoad,
     };
 
-    // Add each core speed to the JSON object
     coreSpeeds.forEach((key, value) {
       json[key] = value;
     });
