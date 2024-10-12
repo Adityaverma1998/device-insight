@@ -13,11 +13,27 @@ import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStreamReader
 import android.util.Log
+import java.io.FileReader
 
 import java.io.FileNotFoundException
 
 
 private val CPU_USAGE_CHANNEL = "com.example.device_insight/cpu_usage_channel"
+
+data class Processor(
+    val productName: String,
+    val fab: String,
+    val cpuNotation: String,
+    val cpu: String,
+    val gpu: String,
+    val dsp: String,
+    val isp: String,
+    val memoryTechnology: String,
+    val modem: String,
+    val connectivity: String,
+    val quickCharge: String,
+    val released: String
+)
 
 class CpuInfoStreamHandler(
         binaryMessenger: BinaryMessenger,
@@ -103,6 +119,8 @@ class CpuInfoStreamHandler(
             }
 
             cpuInfoMap["Architecture"] = cpuInfoMap["Architecture"] ?: "Not available"
+//            cpuInfoMap["Processor"] = getProcessorName() ?: "Not available"
+            cpuInfoMap["Processor"] =  "Not available"
             cpuInfoMap["Revision"] = cpuInfoMap["Revision"] ?: "Not available"
             cpuInfoMap["Process"] = getProcessSize()
 
@@ -120,6 +138,40 @@ class CpuInfoStreamHandler(
         }
     }
 
+    val processorNames = mapOf(
+        "MT6769V/CZ" to Processor(
+            productName = "MediaTek Helio G70/G80",
+            fab = "12 nm (TSMC 12FFC)",
+            cpuNotation = "2 × Cortex-A75 @ 2.0 GHz, 6 × Cortex-A55 @ 1.8 GHz",
+            cpu = "ARM Cortex-A55",
+            gpu = "Mali-G52",
+            dsp = "MediaTek APU",
+            isp = "MediaTek ISP",
+            memoryTechnology = "LPDDR4X",
+            modem = "4G LTE",
+            connectivity = "4G",
+            quickCharge = "Yes",
+            released = "2019"
+        ),
+    )
+
+    fun getProcessorName(): Processor? {
+        var processorName: String? = null
+        try {
+            val reader = BufferedReader(FileReader("/proc/cpuinfo"))
+            var line: String?
+            while (reader.readLine().also { line = it } != null) {
+                if (line!!.startsWith("Hardware")) {
+                    processorName = line!!.split(":")[1].trim()
+                    break
+                }
+            }
+            reader.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return processorName?.let { processorNames[it] }
+    }
     private fun getProcessSizeFromCpuInfo(): String? {
         val cpuInfoFile = "/proc/cpuinfo"
         return try {
