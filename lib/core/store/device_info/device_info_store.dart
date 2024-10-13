@@ -42,6 +42,8 @@ abstract class _DeviceInfoStore with Store {
   );
   @observable
   SystemInfo systemInfo = SystemInfo(
+
+    openGLES: 'Unknown',
       androidVersion: 'Unknown',
       apiLevel: "Unknown",
       securityPatchLevel: 'Unknown',

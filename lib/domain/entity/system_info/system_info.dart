@@ -40,10 +40,10 @@ class SystemInfo {
   factory SystemInfo.fromJson(Map<String, dynamic> json) {
     return SystemInfo(
       androidVersion: json["AndroidVersion"] as String, // Updated to String
-      apiLevel: json["ApiLevel"] as String,
+      apiLevel: json["ApiLevel"].toString() ,
       securityPatchLevel: json["SecurityPatchLevel"] as String,
       buildID: json["BuildID"] as String,
-      bootloader: json["Bootloader"] as String, // Ensure this key exists in the JSON if needed
+      bootloader: json["Bootloader"].toString(), // Ensure this key exists in the JSON if needed
       javaVM: json["JavaVM"] as String,
       openGLES: json["OpenGLES"] as String?,
       kernelArchitecture: json["KernelArchitecture"] as String,

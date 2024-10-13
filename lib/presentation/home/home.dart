@@ -48,13 +48,18 @@ class _HomeScreenState extends State<HomeScreen> {
       _deviceInfoStore.updateBatteryInfo(batteryInfo);
     });
     _systemInfoSubscription =
-        MobileTracker.systemInfoStream.listen((batteryInfo) {
+        MobileTracker.systemInfoStream.listen((systemInfo) {
       // _deviceInfoStore.updateBatteryInfo(batteryInfo);
+      //     print('check cpu usage info data before system $cpuUsageInfo');
+
+          _deviceInfoStore.updateSystemInfo(systemInfo);
     });
     _displayInfoSubscription =
-        MobileTracker.deviceInfoStream.listen((batteryInfo) {
+        MobileTracker.deviceInfoStream.listen((deviceInfo) {
       // _deviceInfoStore.updateBatteryInfo(batteryInfo);
-    });
+          _deviceInfoStore.updateCpuUsageInfo(deviceInfo);
+
+        });
     _cpuInfoSubscription = MobileTracker.cpuInfoStream.listen((cpuUsageInfo) {
       // _deviceInfoStore.updateBatteryInfo(batteryInfo);
       print('check cpu usage info data before update $cpuUsageInfo');
@@ -92,7 +97,6 @@ class _HomeScreenState extends State<HomeScreen> {
     'Memory',
     'Camera',
     'Thermal',
-
   ];
 
   @override
@@ -102,17 +106,17 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           CustomTabbarScreen(
             tabLists: tabLists,
-            tabWidgets: const [
-              DashboardScreen(),
+            tabWidgets: [
+              const DashboardScreen(),
               SystemInfoScreen(),
-              DeviceInfoScreen(),
-              DisplayInfoScreen(),
-              BatteryInfoScreen(),
-              NetworkScreenInfo(),
-              CpuInfoScreen(),
-              MemoryInfoScreen(),
-              CameraInfoScreen(),
-              ThermalInfoScreen(),
+               DeviceInfoScreen(),
+               DisplayInfoScreen(),
+              const BatteryInfoScreen(),
+              const NetworkScreenInfo(),
+              const CpuInfoScreen(),
+              const MemoryInfoScreen(),
+              const CameraInfoScreen(),
+              const ThermalInfoScreen(),
             ],
           ),
         ],

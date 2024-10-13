@@ -7,41 +7,34 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class InternalStorageInfoScreen extends StatelessWidget {
-   InternalStorageInfoScreen({super.key});
+  InternalStorageInfoScreen({super.key});
 
   final DeviceInfoStore _deviceInfoStore = getIt<DeviceInfoStore>();
 
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
-      double totalStorage =  double.tryParse(_deviceInfoStore.memoryInfo.internalStorage ?? '0') ?? 0.0;
-      double availableStorage =  double.tryParse(_deviceInfoStore.memoryInfo.availableStorage ?? '0') ?? 0.0;
-      double usedStorage = totalStorage - availableStorage;
+      // Parse total and available storage
+      double totalStorage = double.tryParse(_deviceInfoStore.memoryInfo.internalStorage ?? '0') ?? 0.0;
+      double availableStorage = double.tryParse(_deviceInfoStore.memoryInfo.availableStorage ?? '0') ?? 0.0;
 
-// Calculate percentage of used storage
-      double usedStoragePercentage = (usedStorage / totalStorage) * 100;
-      double usedStoragePercentageFormatted = double.parse( usedStoragePercentage.toStringAsFixed(2));
+      // Calculate used storage and percentage
+      int usedStoragePercentageRounded = _calculateUsedStoragePercentage(totalStorage, availableStorage);
 
-      int usedStoragePercentageRounded = usedStoragePercentageFormatted.round();
-
-      print('check total used usedStoragePercentage---> $usedStoragePercentageFormatted ::: $usedStorage');
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 20.0),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-          color:AppThemeData.lightThemeData.colorScheme.secondaryContainer,
-
-
+          color: AppThemeData.lightThemeData.colorScheme.secondaryContainer,
         ),
         child: Row(
           children: [
             Container(
-              // color: Colors.white,
               width: 50,
               height: 60,
               child: Image.asset(
-                  Assets.internalMemory,
-                fit: BoxFit.cover, // Image takes complete width and height
+                Assets.internalMemory,
+                fit: BoxFit.cover,
               ),
             ),
             const SizedBox(width: 10.0), // Add spacing between image and column
@@ -49,46 +42,42 @@ class InternalStorageInfoScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start, // Align text to the start
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Internal Storage ',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: Theme.of(context).colorScheme.primaryContainer,
-                        ), ),
-
-                    ],
+                  Text(
+                    'Internal Storage',
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                    ),
                   ),
                   const SizedBox(height: 8.0),
                   LinearPercentIndicator(
                     padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                    width: MediaQuery.of(context).size.width*0.7 , // Subtract padding from total width
+                    width: MediaQuery.of(context).size.width * 0.7,
                     animation: true,
                     lineHeight: 8.0,
                     animationDuration: 2500,
-                    percent: usedStoragePercentageFormatted/100,
+                    percent: usedStoragePercentageRounded / 100, // Convert percentage to fraction
                     barRadius: const Radius.circular(16.0),
                     progressColor: Theme.of(context).colorScheme.primaryContainer,
-                  )
-                  ,
+                  ),
                   const SizedBox(height: 8.0),
                   Row(
                     children: [
                       Text(
-                        'Free : ${(_deviceInfoStore.memoryInfo.availableStorage)} GB ',
+                        'Free: ${availableStorage.toStringAsFixed(2)} GB',
                         style: Theme.of(context).textTheme.labelMedium?.copyWith(
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).colorScheme.primaryContainer,
-                        ), ),
+                        ),
+                      ),
                       const SizedBox(width: 16.0),
-
                       Text(
-                        'Total : ${(_deviceInfoStore.memoryInfo.internalStorage)} GB ',
+                        'Total: ${totalStorage.toStringAsFixed(2)} GB',
                         style: Theme.of(context).textTheme.labelMedium?.copyWith(
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).colorScheme.primaryContainer,
-                        ), ),
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -96,16 +85,27 @@ class InternalStorageInfoScreen extends StatelessWidget {
             ),
             const SizedBox(width: 10.0),
             Text(
-                '$usedStoragePercentageRounded%',
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                )),
+              '$usedStoragePercentageRounded%',
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).colorScheme.primaryContainer,
+              ),
+            ),
           ],
         ),
-      )
-      ;
+      );
     });
   }
 
+  /// Calculate the used storage percentage rounded to the nearest whole number.
+  int _calculateUsedStoragePercentage(double totalStorage, double availableStorage) {
+    if (totalStorage > 0) {
+      double usedStorage = totalStorage - availableStorage;
+      double usedStoragePercentage = (usedStorage / totalStorage) * 100;
+      return usedStoragePercentage.round();
+    } else {
+      print('Total storage is 0 or invalid. Cannot calculate percentage.');
+      return 0; // Return 0% if total storage is 0
+    }
+  }
 }
