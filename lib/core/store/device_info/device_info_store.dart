@@ -4,6 +4,7 @@ import 'package:device_insight/domain/entity/system_info/device_info.dart';
 import 'package:device_insight/domain/entity/system_info/display_info.dart';
 import 'package:device_insight/domain/entity/system_info/memory_info.dart';
 import 'package:device_insight/domain/entity/system_info/system_info.dart';
+import 'package:device_insight/domain/entity/system_info/thermal_info.dart';
 import 'package:mobx/mobx.dart';
 
 part 'device_info_store.g.dart';
@@ -106,6 +107,9 @@ abstract class _DeviceInfoStore with Store {
       screenTimeout: "Unknown",
       screenSize: "Unknown");
 
+
+  @observable
+  ThermalInfo thermalInfo = ThermalInfo(battery: 'Unknown');
   // Action to update the battery info from a JSON
   @action
   void updateBatteryInfo(Map<String, dynamic> json) {
@@ -113,6 +117,11 @@ abstract class _DeviceInfoStore with Store {
     batteryInfo = BatteryInfo.fromJson(json);
   }
 
+  @action
+  void updateThermalInfo(Map<String, dynamic> json) {
+    print(' check update Thermal info $json');
+    thermalInfo = ThermalInfo.fromJson(json);
+  }
   @action
   void updateDeviceInfo(Map<String, dynamic> json) {
     print(' check update system info store  info $json');

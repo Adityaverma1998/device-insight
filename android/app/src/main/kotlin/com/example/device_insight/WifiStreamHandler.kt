@@ -12,7 +12,7 @@ import android.os.Looper
 
 import android.util.Log
 
-private const val WIFI_CHANNEL = "dev.bucle.tracker/events/wifi"
+private const val WIFI_CHANNEL = "com.example.device_insight/wifi"
 
 class WifiStreamHandler(
         binaryMessenger: BinaryMessenger,

@@ -11,8 +11,8 @@ class MobileTracker {
   static const EventChannel _cpuInfoChannel = EventChannel('com.example.device_insight/cpu_usage_channel');
 
   static const EventChannel _displayInfoChannel = EventChannel('com.example.device_insight/displayInfo');
-  static const EventChannel _wifiInfoChannel = EventChannel('com.example.device_insight/cpu_usage_channel');
-  static const EventChannel _networkInfoChannel = EventChannel('com.example.device_insight/cpu_usage_channel');
+  static const EventChannel _wifiInfoChannel = EventChannel('com.example.device_insight/wifi');
+  static const EventChannel _networkInfoChannel = EventChannel('com.example.device_insight/mobileNetworkDetails');
 
   static Stream<Map<String, dynamic>> get batteryInfoStream {
     return _batteryChannel.receiveBroadcastStream().map((data) {
@@ -94,6 +94,30 @@ class MobileTracker {
       final cpuInfoJson = jsonEncode(cpuInfo);
       print('Display Info in JSON format: $cpuInfoJson');
       return cpuInfo; // Returning the original Map for further use
+    }).handleError((error) {
+      print('Error in Displ Streamay: $error');
+    });
+  }
+
+  static Stream<Map<String, dynamic>> get networkInfoStream {
+    return _networkInfoChannel.receiveBroadcastStream().map((data) {
+      print('Network Info Data received: $data');
+      final networkInfo = Map<String, dynamic>.from(data);
+      final cpuInfoJson = jsonEncode(networkInfo);
+      print('Display Info in JSON format: $cpuInfoJson');
+      return networkInfo; // Returning the original Map for further use
+    }).handleError((error) {
+      print('Error in Displ Streamay: $error');
+    });
+  }
+
+  static Stream<Map<String, dynamic>> get wifiInfoStream {
+    return _wifiInfoChannel.receiveBroadcastStream().map((data) {
+      print('Wifi Info Data received: $data');
+      final networkInfo = Map<String, dynamic>.from(data);
+      final cpuInfoJson = jsonEncode(networkInfo);
+      print('Wifi Info in JSON format: $cpuInfoJson');
+      return networkInfo; // Returning the original Map for further use
     }).handleError((error) {
       print('Error in Displ Streamay: $error');
     });

@@ -105,6 +105,22 @@ mixin _$DeviceInfoStore on _DeviceInfoStore, Store {
     });
   }
 
+  late final _$thermalInfoAtom =
+      Atom(name: '_DeviceInfoStore.thermalInfo', context: context);
+
+  @override
+  ThermalInfo get thermalInfo {
+    _$thermalInfoAtom.reportRead();
+    return super.thermalInfo;
+  }
+
+  @override
+  set thermalInfo(ThermalInfo value) {
+    _$thermalInfoAtom.reportWrite(value, super.thermalInfo, () {
+      super.thermalInfo = value;
+    });
+  }
+
   late final _$_DeviceInfoStoreActionController =
       ActionController(name: '_DeviceInfoStore', context: context);
 
@@ -114,6 +130,17 @@ mixin _$DeviceInfoStore on _DeviceInfoStore, Store {
         name: '_DeviceInfoStore.updateBatteryInfo');
     try {
       return super.updateBatteryInfo(json);
+    } finally {
+      _$_DeviceInfoStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updateThermalInfo(Map<String, dynamic> json) {
+    final _$actionInfo = _$_DeviceInfoStoreActionController.startAction(
+        name: '_DeviceInfoStore.updateThermalInfo');
+    try {
+      return super.updateThermalInfo(json);
     } finally {
       _$_DeviceInfoStoreActionController.endAction(_$actionInfo);
     }
@@ -182,7 +209,8 @@ deviceInfo: ${deviceInfo},
 systemInfo: ${systemInfo},
 memoryInfo: ${memoryInfo},
 cpuUsageInfo: ${cpuUsageInfo},
-displayInfo: ${displayInfo}
+displayInfo: ${displayInfo},
+thermalInfo: ${thermalInfo}
     ''';
   }
 }

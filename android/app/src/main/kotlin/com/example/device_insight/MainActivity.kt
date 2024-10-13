@@ -17,6 +17,8 @@ class MainActivity : FlutterActivity() {
         private const val CPU_USAGE_CHANNEL = "com.example.device_insight/cpu_usage_channel"
         private const val MOBILE_NETWORK_CHANNEL = "com.example.device_insight/mobileNetworkDetails"
         private const val DISPLAY_INFO_CHANNEL = "com.example.device_insight/displayInfo"
+        private const val WIFI_CHANNEL = "com.example.device_insight/wifi"
+
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
@@ -47,5 +49,7 @@ class MainActivity : FlutterActivity() {
 
         EventChannel(binaryMessenger, DISPLAY_INFO_CHANNEL)
             .setStreamHandler(DisplayInfoStreamHandler(binaryMessenger, applicationContext))
+        EventChannel(binaryMessenger, WIFI_CHANNEL)
+            .setStreamHandler(WifiStreamHandler(binaryMessenger, applicationContext))
     }
 }
