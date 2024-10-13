@@ -14,12 +14,14 @@ class DisplayInfoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
       return SingleChildScrollView(
+        padding:
+        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
               decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.secondaryContainer,
                   borderRadius: BorderRadius.circular(16.0)),
@@ -91,11 +93,12 @@ class DisplayInfoScreen extends StatelessWidget {
             ),
             Container(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
               decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.secondaryContainer,
                   borderRadius: BorderRadius.circular(16.0)),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   RowTableDataWidget(
                       label: 'Resolution',

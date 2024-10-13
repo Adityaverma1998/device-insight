@@ -32,6 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
   late StreamSubscription<Map<String, dynamic>> _displayInfoSubscription;
   late StreamSubscription<Map<String, dynamic>> _cpuInfoSubscription;
   late StreamSubscription<Map<String, dynamic>> _memoryInfoSubscription;
+  late StreamSubscription<Map<String, dynamic>> _deviceInfoSubscription;
+  late StreamSubscription<Map<String, dynamic>> _networkInfoSubscription;
+  late StreamSubscription<Map<String, dynamic>> _wifiInfoSubscription;
   final MobileTracker _mobileTracker = MobileTracker();
 
   @override
@@ -74,6 +77,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
       // _deviceInfoStore.updatememoryInfo(memoryInfo);
     });
+
+    _deviceInfoSubscription =
+        MobileTracker.deviceInfoStream.listen((deviceInfo) {
+      print('check deviceInfo info data before update $deviceInfo');
+      _deviceInfoStore.updateDeviceInfo(deviceInfo);
+
+      // _deviceInfoStore.updatememoryInfo(memoryInfo);
+    });
   }
 
   @override
@@ -83,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _displayInfoSubscription.cancel();
     _cpuInfoSubscription.cancel();
     _memoryInfoSubscription.cancel();
+    _deviceInfoSubscription.cancel();
     super.dispose();
   }
 
