@@ -37,7 +37,6 @@ class ThermalStreamHandler(
                 // Step 2: Read from /sys/class/thermal/
                 thermalData.putAll(readThermalZones())
 
-                Log.d("ThermalStreamHandler", "Thermal Info Map: $thermalData")
                 // Send the thermal data back to Flutter
                 events?.success(thermalData)
             }
@@ -89,7 +88,6 @@ class ThermalStreamHandler(
                 }
             }
         } catch (e: Exception) {
-            Log.e("ThermalDataCollector", "Error reading thermal zones", e)
         }
 
         return thermalData

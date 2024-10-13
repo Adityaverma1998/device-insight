@@ -6,18 +6,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-class BatteryInfoPercentageScreen extends StatelessWidget {
-  BatteryInfoPercentageScreen({super.key});
+class InternalStorageInfoScreen extends StatelessWidget {
+   InternalStorageInfoScreen({super.key});
 
   final DeviceInfoStore _deviceInfoStore = getIt<DeviceInfoStore>();
 
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
-      // Parse battery percentage and handle null or non-numeric values
-      double batteryPercentage = (double.tryParse(_deviceInfoStore.batteryInfo.batteryPercentage ?? '0') ?? 0.0)/100;
-      bool isCharging = _deviceInfoStore.batteryInfo.batteryStatus == "Charging";
+      double totalStorage =  double.tryParse(_deviceInfoStore.memoryInfo.internalStorage ?? '0') ?? 0.0;
+      double availableStorage =  double.tryParse(_deviceInfoStore.memoryInfo.availableStorage ?? '0') ?? 0.0;
+      double usedStorage = totalStorage - availableStorage;
 
+// Calculate percentage of used storage
+      double usedStoragePercentage = (usedStorage / totalStorage) * 100;
+      double usedStoragePercentageFormatted = double.parse( usedStoragePercentage.toStringAsFixed(2));
+
+      int usedStoragePercentageRounded = usedStoragePercentageFormatted.round();
+
+      print('check total used usedStoragePercentage---> $usedStoragePercentageFormatted ::: $usedStorage');
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 20.0),
         decoration: BoxDecoration(
@@ -33,7 +40,7 @@ class BatteryInfoPercentageScreen extends StatelessWidget {
               width: 50,
               height: 60,
               child: Image.asset(
-                isCharging ? Assets.batteryCharging:  Assets.battery,
+                  Assets.internalMemory,
                 fit: BoxFit.cover, // Image takes complete width and height
               ),
             ),
@@ -43,40 +50,33 @@ class BatteryInfoPercentageScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start, // Align text to the start
                 children: [
                   Row(
-                  children: [
-              Text(
-              'Battery${isCharging?'(Charging)':''} ',
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                ), ),
+                    children: [
+                      Text(
+                        'Internal Storage ',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: Theme.of(context).colorScheme.primaryContainer,
+                        ), ),
 
-                  ],
+                    ],
                   ),
                   const SizedBox(height: 8.0),
-                  isCharging
-                      ? const LinearProgressIndicator(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                    minHeight: 8.0,
-                    color: Colors.blue,
-                    backgroundColor: Colors.grey,
+                  LinearPercentIndicator(
+                    padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                    width: MediaQuery.of(context).size.width*0.7 , // Subtract padding from total width
+                    animation: true,
+                    lineHeight: 8.0,
+                    animationDuration: 2500,
+                    percent: usedStoragePercentageFormatted/100,
+                    barRadius: const Radius.circular(16.0),
+                    progressColor: Theme.of(context).colorScheme.primaryContainer,
                   )
-                      : LinearPercentIndicator(
-                        padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                        width: MediaQuery.of(context).size.width*0.7 , // Subtract padding from total width
-                        animation: true,
-                        lineHeight: 8.0,
-                        animationDuration: 2500,
-                        percent: batteryPercentage,
-                        barRadius: const Radius.circular(16.0),
-                        progressColor: Theme.of(context).colorScheme.primaryContainer,
-                      )
                   ,
                   const SizedBox(height: 8.0),
                   Row(
                     children: [
                       Text(
-                        'Voltage : ${_deviceInfoStore.batteryInfo.batteryVoltage} ',
+                        'Free : ${(_deviceInfoStore.memoryInfo.availableStorage)} GB ',
                         style: Theme.of(context).textTheme.labelMedium?.copyWith(
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).colorScheme.primaryContainer,
@@ -84,7 +84,7 @@ class BatteryInfoPercentageScreen extends StatelessWidget {
                       const SizedBox(width: 16.0),
 
                       Text(
-                        'Temperature : ${_deviceInfoStore.batteryInfo.batteryTemperature} ',
+                        'Total : ${(_deviceInfoStore.memoryInfo.internalStorage)} GB ',
                         style: Theme.of(context).textTheme.labelMedium?.copyWith(
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).colorScheme.primaryContainer,
@@ -96,15 +96,16 @@ class BatteryInfoPercentageScreen extends StatelessWidget {
             ),
             const SizedBox(width: 10.0),
             Text(
-          '${_deviceInfoStore.batteryInfo.batteryPercentage}%',
-          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).colorScheme.primaryContainer,
-          )),
+                '$usedStoragePercentageRounded%',
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                )),
           ],
         ),
       )
       ;
     });
   }
+
 }

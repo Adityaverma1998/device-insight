@@ -1,6 +1,7 @@
 import 'package:device_insight/core/store/device_info/device_info_store.dart';
 import 'package:device_insight/core/widget/chart/ram-used-chart/ram-use-lin-chart.dart';
 import 'package:device_insight/core/widget/device_info_percentage/battery_info_percentage_screen.dart';
+import 'package:device_insight/core/widget/device_info_percentage/internal_storage_info_screen.dart';
 import 'package:device_insight/di/serivce_locators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -44,9 +45,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ...cpuStatusWidgets
                 ],
               ),
-            SizedBox(height: 16.0,),
+            const SizedBox(height: 16.0,),
               // LineChartSample2(),
               BatteryInfoPercentageScreen(),
+              const SizedBox(height: 16.0,),
+
+              InternalStorageInfoScreen(),
 
               // Six
           ],
