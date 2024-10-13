@@ -1,6 +1,7 @@
 import 'package:device_insight/domain/entity/system_info/battery_info.dart';
 import 'package:device_insight/domain/entity/system_info/cpu_usage_info.dart';
 import 'package:device_insight/domain/entity/system_info/device_info.dart';
+import 'package:device_insight/domain/entity/system_info/display_info.dart';
 import 'package:device_insight/domain/entity/system_info/memory_info.dart';
 import 'package:device_insight/domain/entity/system_info/system_info.dart';
 import 'package:mobx/mobx.dart';
@@ -43,7 +44,7 @@ abstract class _DeviceInfoStore with Store {
   @observable
   SystemInfo systemInfo = SystemInfo(
 
-    openGLES: 'Unknown',
+      openGLES: 'Unknown',
       androidVersion: 'Unknown',
       apiLevel: "Unknown",
       securityPatchLevel: 'Unknown',
@@ -77,21 +78,33 @@ abstract class _DeviceInfoStore with Store {
       bogoMIPS: "Unknown",
       features: "Unknown",
       cpuImplementer: "Unknown",
-      cpuArchitecture:"Unknown" ,
+      cpuArchitecture: "Unknown",
       cpuVariant: "Unknown",
       cpuPart: "Unknown",
-      cpuRevision:  "Unknown",
+      cpuRevision: "Unknown",
       hardware: "Unknown",
       architecture: "Unknown",
       revision: "Unknown",
       process: "Unknown",
       clockSpeed: "Unknown",
       cores: "Unknown",
-      cpuLoad:"Unknown",
+      cpuLoad: "Unknown",
       coreSpeeds: {},
       gpuVendor: "Unknown",
       gpuRenderer: "Unknown",
       gpuLoad: "Unknown");
+
+  @observable
+  DisplayInfo displayInfo = DisplayInfo(resolution: "Unknown",
+      density: "Unknown",
+      fontScale: "Unknown",
+      refreshRate: "Unknown",
+      orientation: "Unknown",
+      brightnessLevel: "Unknown",
+      brightnessMode: "Unknown",
+      hdrCapabilities: "Unknown",
+      screenTimeout: "Unknown",
+      screenSize: "Unknown");
 
   // Action to update the battery info from a JSON
   @action
@@ -117,9 +130,16 @@ abstract class _DeviceInfoStore with Store {
     print(' check update memory info $json');
     memoryInfo = MemoryInfo.fromJson(json);
   }
+
   @action
   void updateCpuUsageInfo(Map<String, dynamic> json) {
     print(' check update cpu  info $json');
     cpuUsageInfo = CpuUsageInfo.fromJson(json);
+  }
+
+  @action
+  void updateDisplayInfo(Map<String, dynamic> json) {
+    print(' check update cpu  info $json');
+    displayInfo = DisplayInfo.fromJson(json);
   }
 }

@@ -47,19 +47,19 @@ class _HomeScreenState extends State<HomeScreen> {
         MobileTracker.batteryInfoStream.listen((batteryInfo) {
       _deviceInfoStore.updateBatteryInfo(batteryInfo);
     });
+
     _systemInfoSubscription =
         MobileTracker.systemInfoStream.listen((systemInfo) {
       // _deviceInfoStore.updateBatteryInfo(batteryInfo);
       //     print('check cpu usage info data before system $cpuUsageInfo');
 
-          _deviceInfoStore.updateSystemInfo(systemInfo);
+      _deviceInfoStore.updateSystemInfo(systemInfo);
     });
     _displayInfoSubscription =
-        MobileTracker.deviceInfoStream.listen((deviceInfo) {
+        MobileTracker.displayInfoStream.listen((displayInfo) {
       // _deviceInfoStore.updateBatteryInfo(batteryInfo);
-          _deviceInfoStore.updateCpuUsageInfo(deviceInfo);
-
-        });
+      _deviceInfoStore.updateDisplayInfo(displayInfo);
+    });
     _cpuInfoSubscription = MobileTracker.cpuInfoStream.listen((cpuUsageInfo) {
       // _deviceInfoStore.updateBatteryInfo(batteryInfo);
       print('check cpu usage info data before update $cpuUsageInfo');
@@ -109,14 +109,14 @@ class _HomeScreenState extends State<HomeScreen> {
             tabWidgets: [
               const DashboardScreen(),
               SystemInfoScreen(),
-               DeviceInfoScreen(),
-               DisplayInfoScreen(),
-              const BatteryInfoScreen(),
-              const NetworkScreenInfo(),
-              const CpuInfoScreen(),
-              const MemoryInfoScreen(),
+              DeviceInfoScreen(),
+              DisplayInfoScreen(),
+              BatteryInfoScreen(),
+              NetworkInfoScreen(),
+              CpuInfoScreen(),
+              MemoryInfoScreen(),
               const CameraInfoScreen(),
-              const ThermalInfoScreen(),
+              ThermalInfoScreen(),
             ],
           ),
         ],

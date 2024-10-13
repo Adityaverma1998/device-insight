@@ -89,6 +89,22 @@ mixin _$DeviceInfoStore on _DeviceInfoStore, Store {
     });
   }
 
+  late final _$displayInfoAtom =
+      Atom(name: '_DeviceInfoStore.displayInfo', context: context);
+
+  @override
+  DisplayInfo get displayInfo {
+    _$displayInfoAtom.reportRead();
+    return super.displayInfo;
+  }
+
+  @override
+  set displayInfo(DisplayInfo value) {
+    _$displayInfoAtom.reportWrite(value, super.displayInfo, () {
+      super.displayInfo = value;
+    });
+  }
+
   late final _$_DeviceInfoStoreActionController =
       ActionController(name: '_DeviceInfoStore', context: context);
 
@@ -148,13 +164,25 @@ mixin _$DeviceInfoStore on _DeviceInfoStore, Store {
   }
 
   @override
+  void updateDisplayInfo(Map<String, dynamic> json) {
+    final _$actionInfo = _$_DeviceInfoStoreActionController.startAction(
+        name: '_DeviceInfoStore.updateDisplayInfo');
+    try {
+      return super.updateDisplayInfo(json);
+    } finally {
+      _$_DeviceInfoStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 batteryInfo: ${batteryInfo},
 deviceInfo: ${deviceInfo},
 systemInfo: ${systemInfo},
 memoryInfo: ${memoryInfo},
-cpuUsageInfo: ${cpuUsageInfo}
+cpuUsageInfo: ${cpuUsageInfo},
+displayInfo: ${displayInfo}
     ''';
   }
 }

@@ -10,6 +10,10 @@ class MobileTracker {
   static const EventChannel _systemInfoChannel = EventChannel('com.example.device_insight/system_info');
   static const EventChannel _cpuInfoChannel = EventChannel('com.example.device_insight/cpu_usage_channel');
 
+  static const EventChannel _displayInfoChannel = EventChannel('com.example.device_insight/displayInfo');
+  static const EventChannel _wifiInfoChannel = EventChannel('com.example.device_insight/cpu_usage_channel');
+  static const EventChannel _networkInfoChannel = EventChannel('com.example.device_insight/cpu_usage_channel');
+
   static Stream<Map<String, dynamic>> get batteryInfoStream {
     return _batteryChannel.receiveBroadcastStream().map((data) {
       print('Battery Info Data received: $data');
@@ -81,6 +85,17 @@ class MobileTracker {
       return cpuInfo; // Returning the original Map for further use
     }).handleError((error) {
       print('Error in cpuInfoStream: $error');
+    });
+  }
+  static Stream<Map<String, dynamic>> get displayInfoStream {
+    return _displayInfoChannel.receiveBroadcastStream().map((data) {
+      print('Display Info Data received: $data');
+      final cpuInfo = Map<String, dynamic>.from(data);
+      final cpuInfoJson = jsonEncode(cpuInfo);
+      print('Display Info in JSON format: $cpuInfoJson');
+      return cpuInfo; // Returning the original Map for further use
+    }).handleError((error) {
+      print('Error in Displ Streamay: $error');
     });
   }
 }
