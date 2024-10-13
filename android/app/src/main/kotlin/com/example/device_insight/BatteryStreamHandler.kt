@@ -61,7 +61,7 @@ class BatteryStreamHandler(private val context: Context) : EventChannel.StreamHa
 
                 events?.success(
                     mapOf(
-                        "BatteryLevel" to "$batteryPercentage%", // Added unit
+                        "BatteryLevel" to "$batteryPercentage", // Added unit
                         "Temperature" to "${batteryTemperature / 10.0}°C", // Converted to Celsius and added unit
                         "Voltage" to "${batteryVoltage / 1000.0}V", // Converted to Volts and added unit
                         "BatteryHealth" to health,
