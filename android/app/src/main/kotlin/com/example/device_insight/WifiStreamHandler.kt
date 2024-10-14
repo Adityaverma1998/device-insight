@@ -1,22 +1,22 @@
 package com.example.device_insight
 
+import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.net.wifi.WifiManager
+import androidx.core.content.ContextCompat
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.BinaryMessenger
-import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener
 import android.os.Handler
 import android.os.Looper
-
-import android.util.Log
 
 private const val WIFI_CHANNEL = "com.example.device_insight/wifi"
 
 class WifiStreamHandler(
-        binaryMessenger: BinaryMessenger,
-        private val context: Context?
+    binaryMessenger: BinaryMessenger,
+    private val context: Context?
 ) : EventChannel.StreamHandler {
 
     private lateinit var handler: Handler
@@ -39,7 +39,14 @@ class WifiStreamHandler(
     }
 
     override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
-        wifiManager = context?.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        if (context == null || events == null) {
+            return
+        }
+
+        // Check if the necessary permissions are granted
+        val locationPermissionGranted = hasLocationPermission()
+
+        wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
         handler = Handler(Looper.getMainLooper())
 
         // Define the task to be executed every second
@@ -50,54 +57,62 @@ class WifiStreamHandler(
                     wifiInfo?.let {
                         if (it.networkId == -1) {
                             // Not connected to any Wi-Fi
-                            events?.success(mapOf("message" to "Please connect to Wi-Fi"))
+                            events.success(mapOf("message" to "Please connect to Wi-Fi"))
                         } else {
                             val ipAddress = it.ipAddress
                             val formattedIpAddress = String.format(
-                                    "%d.%d.%d.%d",
-                                    ipAddress and 0xff,
-                                    ipAddress shr 8 and 0xff,
-                                    ipAddress shr 16 and 0xff,
-                                    ipAddress shr 24 and 0xff
+                                "%d.%d.%d.%d",
+                                ipAddress and 0xff,
+                                ipAddress shr 8 and 0xff,
+                                ipAddress shr 16 and 0xff,
+                                ipAddress shr 24 and 0xff
                             )
 
                             val hasChanged = checkForChanges(
-                                    ssid = it.ssid ?: "N/A",
-                                    bssid = it.bssid ?: "N/A",
-                                    ip = formattedIpAddress,
-                                    rssi = it.rssi,
-                                    frequency = it.frequency,
-                                    linkSpeed = it.linkSpeed
+                                ssid = if (locationPermissionGranted) it.ssid ?: "N/A" else "Permission Denied",
+                                bssid = if (locationPermissionGranted) it.bssid ?: "N/A" else "Permission Denied",
+                                ip = formattedIpAddress,
+                                rssi = it.rssi,
+                                frequency = it.frequency,
+                                linkSpeed = it.linkSpeed
                             )
 
                             if (hasChanged) {
-                                events?.success(
-                                        mapOf(
-                                                "SSID" to (it.ssid ?: "N/A"),
-                                                "BSSID" to (it.bssid ?: "N/A"),
-                                                "IP" to formattedIpAddress,
-                                                "WifiStrength" to "${it.rssi} dBm",
-                                                "Frequency" to "${it.frequency} MHz",
-                                                "LinkSpeed" to "${it.linkSpeed} Mbps"
-                                        )
+                                // Send Wi-Fi data based on permissions
+                                val data = mutableMapOf(
+                                    "WifiStrength" to "${it.rssi} dBm",
+                                    "Frequency" to "${it.frequency} MHz",
+                                    "LinkSpeed" to "${it.linkSpeed} Mbps"
                                 )
+
+                                if (locationPermissionGranted) {
+                                    data["SSID"] = it.ssid ?: "N/A"
+                                    data["BSSID"] = it.bssid ?: "N/A"
+                                } else {
+                                    data["SSID"] = "Permission Denied"
+                                    data["BSSID"] = "Permission Denied"
+                                }
+
+                                data["IP"] = formattedIpAddress
+                                events.success(data)
                             } else {
-                                events?.success(
-                                        mapOf(
-                                                "SSID" to (it.ssid ?: "N/A"),
-                                                "BSSID" to (it.bssid ?: "N/A"),
-                                                "IP" to formattedIpAddress,
-                                                "WifiStrength" to "${it.rssi} dBm",
-                                                "Frequency" to "${it.frequency} MHz",
-                                                "LinkSpeed" to "${it.linkSpeed} Mbps"
-                                        )
-                                )                            }
+                                events.success(
+                                    mapOf(
+                                        "SSID" to (if (locationPermissionGranted) it.ssid ?: "N/A" else "Permission Denied"),
+                                        "BSSID" to (if (locationPermissionGranted) it.bssid ?: "N/A" else "Permission Denied"),
+                                        "IP" to formattedIpAddress,
+                                        "WifiStrength" to "${it.rssi} dBm",
+                                        "Frequency" to "${it.frequency} MHz",
+                                        "LinkSpeed" to "${it.linkSpeed} Mbps"
+                                    )
+                                )
+                            }
                         }
                     } ?: run {
-                        events?.success(mapOf("message" to "Wi-Fi is not connected"))
+                        events.success(mapOf("message" to "Wi-Fi is not connected"))
                     }
                 } catch (e: Exception) {
-                    events?.success(mapOf("message" to "Error retrieving Wi-Fi info: ${e.message}"))
+                    events.success(mapOf("message" to "Error retrieving Wi-Fi info: ${e.message}"))
                 }
 
                 // Schedule the next execution after the specified interval
@@ -118,7 +133,7 @@ class WifiStreamHandler(
                 // Handle Wi-Fi changes if necessary
             }
         }
-        context?.registerReceiver(wifiReceiver, intentFilter)
+        context.registerReceiver(wifiReceiver, intentFilter)
     }
 
     override fun onCancel(arguments: Any?) {
@@ -132,14 +147,23 @@ class WifiStreamHandler(
         wifiReceiver = null
     }
 
+    // Check if the app has location permission (ACCESS_FINE_LOCATION)
+    private fun hasLocationPermission(): Boolean {
+        val locationPermission = ContextCompat.checkSelfPermission(
+            context!!,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+        return locationPermission == PackageManager.PERMISSION_GRANTED
+    }
+
     // Helper function to check for changes in Wi-Fi information
     private fun checkForChanges(
-            ssid: String,
-            bssid: String,
-            ip: String,
-            rssi: Int,
-            frequency: Int,
-            linkSpeed: Int
+        ssid: String,
+        bssid: String,
+        ip: String,
+        rssi: Int,
+        frequency: Int,
+        linkSpeed: Int
     ): Boolean {
         val hasChanged = ssid != previousSSID ||
                 bssid != previousBSSID ||

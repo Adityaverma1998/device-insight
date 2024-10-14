@@ -12,6 +12,7 @@ import 'package:device_insight/core/widget/custom-tabbar/tabbar-view/network_scr
 import 'package:device_insight/core/widget/custom-tabbar/tabbar-view/system_info_screen.dart';
 import 'package:device_insight/core/widget/custom-tabbar/tabbar-view/thermal_info_screen.dart';
 import 'package:device_insight/core/widget/custom-tabbar/tabbar/custom_tabbar.dart';
+import 'package:device_insight/core/widget/custom-tabbar/tabbar/second_custom_tabbar.dart';
 import 'package:device_insight/core/widget/primary_layout/primary_layout.dart';
 import 'package:device_insight/di/serivce_locators.dart';
 import 'package:device_insight/mobile_tracker.dart';

@@ -22,7 +22,7 @@ class InternalStorageInfoScreen extends StatelessWidget {
       int usedStoragePercentageRounded = _calculateUsedStoragePercentage(totalStorage, availableStorage);
 
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20.0),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(16.0)),
           color: AppThemeData.lightThemeData.colorScheme.secondaryContainer,
@@ -52,7 +52,7 @@ class InternalStorageInfoScreen extends StatelessWidget {
                   const SizedBox(height: 8.0),
                   LinearPercentIndicator(
                     padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                    width: MediaQuery.of(context).size.width * 0.7,
+                    width: MediaQuery.of(context).size.width * 0.64,
                     animation: true,
                     lineHeight: 8.0,
                     animationDuration: 2500,

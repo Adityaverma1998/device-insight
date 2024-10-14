@@ -47,10 +47,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             const SizedBox(height: 16.0,),
               // LineChartSample2(),
-              BatteryInfoPercentageScreen(),
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: BatteryInfoPercentageScreen(),
+              ),
               const SizedBox(height: 16.0,),
 
-              InternalStorageInfoScreen(),
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: InternalStorageInfoScreen(),
+              ),
+
+              // Icons.sd_storage_outlined
+          // Icons.mobile
 
               // Six
           ],

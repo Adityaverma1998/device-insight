@@ -63,7 +63,7 @@ class BatteryInfoPercentageScreen extends StatelessWidget {
                   )
                       : LinearPercentIndicator(
                         padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                        width: MediaQuery.of(context).size.width*0.7 , // Subtract padding from total width
+                        width: MediaQuery.of(context).size.width*0.64 , // Subtract padding from total width
                         animation: true,
                         lineHeight: 8.0,
                         animationDuration: 2500,
@@ -95,12 +95,15 @@ class BatteryInfoPercentageScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 10.0),
-            Text(
-          '${_deviceInfoStore.batteryInfo.batteryPercentage}%',
-          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).colorScheme.primaryContainer,
-          )),
+            Padding(
+              padding: const EdgeInsets.only(right:4.0),
+              child: Text(
+                        '${_deviceInfoStore.batteryInfo.batteryPercentage}%',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).colorScheme.primaryContainer,
+                        )),
+            ),
           ],
         ),
       )
