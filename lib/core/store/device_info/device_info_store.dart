@@ -113,42 +113,35 @@ abstract class _DeviceInfoStore with Store {
   // Action to update the battery info from a JSON
   @action
   void updateBatteryInfo(Map<String, dynamic> json) {
-    print(' check update Battery info $json');
     batteryInfo = BatteryInfo.fromJson(json);
   }
 
   @action
   void updateThermalInfo(Map<String, dynamic> json) {
-    print(' check update Thermal info $json');
     thermalInfo = ThermalInfo.fromJson(json);
   }
   @action
   void updateDeviceInfo(Map<String, dynamic> json) {
-    print(' check update system info store  info $json');
     deviceInfo = DeviceInfoEntity.fromJson(json);
   }
 
   @action
   void updateSystemInfo(Map<String, dynamic> json) {
-    print(' check update system info store  info $json');
     systemInfo = SystemInfo.fromJson(json);
   }
 
   @action
   void updateMemoryInfo(Map<String, dynamic> json) {
-    print(' check update memory info $json');
     memoryInfo = MemoryInfo.fromJson(json);
   }
 
   @action
   void updateCpuUsageInfo(Map<String, dynamic> json) {
-    print(' check update cpu  info $json');
     cpuUsageInfo = CpuUsageInfo.fromJson(json);
   }
 
   @action
   void updateDisplayInfo(Map<String, dynamic> json) {
-    print(' check update cpu  info $json');
     displayInfo = DisplayInfo.fromJson(json);
   }
 }

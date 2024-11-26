@@ -30,10 +30,8 @@ class MobileTracker {
 
   static Stream<Map<String, dynamic>> get thermalInfoStream {
     return _thermalChannel.receiveBroadcastStream().map((data) {
-      print('Thermal Info Data received: $data');
       final thermalInfo = Map<String, dynamic>.from(data);
       final thermalInfoJson = jsonEncode(thermalInfo);
-      print('Thermal Info in JSON format: $thermalInfoJson');
       return thermalInfo; // Returning the original Map for further use
     }).handleError((error) {
       print('Error in thermalInfoStream: $error');
@@ -42,10 +40,8 @@ class MobileTracker {
 
   static Stream<Map<String, dynamic>> get memoryInfoStream {
     return _memoryChannel.receiveBroadcastStream().map((data) {
-      print('Memory Info Data received: $data');
       final memoryInfo = Map<String, dynamic>.from(data);
       final memoryInfoJson = jsonEncode(memoryInfo);
-      print('Memory Info in JSON format: $memoryInfoJson');
       return memoryInfo; // Returning the original Map for further use
     }).handleError((error) {
       print('Error in memoryInfoStream: $error');
@@ -54,10 +50,8 @@ class MobileTracker {
 
   static Stream<Map<String, dynamic>> get deviceInfoStream {
     return _deviceChannel.receiveBroadcastStream().map((data) {
-      print('Device Info Data received: $data');
       final deviceInfo = Map<String, dynamic>.from(data);
       final deviceInfoJson = jsonEncode(deviceInfo);
-      print('Device Info in JSON format: $deviceInfoJson');
       return deviceInfo; // Returning the original Map for further use
     }).handleError((error) {
       print('Error in deviceInfoStream: $error');
@@ -69,7 +63,6 @@ class MobileTracker {
       print('System Info Data received: $data');
       final systemInfo = Map<String, dynamic>.from(data);
       final systemInfoJson = jsonEncode(systemInfo);
-      print('System Info in JSON format: $systemInfoJson');
       return systemInfo; // Returning the original Map for further use
     }).handleError((error) {
       print('Error in systemInfoStream: $error');
@@ -81,7 +74,6 @@ class MobileTracker {
       print('CPU Info Data received: $data');
       final cpuInfo = Map<String, dynamic>.from(data);
       final cpuInfoJson = jsonEncode(cpuInfo);
-      print('CPU Info in JSON format: $cpuInfoJson');
       return cpuInfo; // Returning the original Map for further use
     }).handleError((error) {
       print('Error in cpuInfoStream: $error');
@@ -92,7 +84,6 @@ class MobileTracker {
       print('Display Info Data received: $data');
       final cpuInfo = Map<String, dynamic>.from(data);
       final cpuInfoJson = jsonEncode(cpuInfo);
-      print('Display Info in JSON format: $cpuInfoJson');
       return cpuInfo; // Returning the original Map for further use
     }).handleError((error) {
       print('Error in Displ Streamay: $error');
@@ -101,10 +92,8 @@ class MobileTracker {
 
   static Stream<Map<String, dynamic>> get networkInfoStream {
     return _networkInfoChannel.receiveBroadcastStream().map((data) {
-      print('Network Info Data received: $data');
       final networkInfo = Map<String, dynamic>.from(data);
       final cpuInfoJson = jsonEncode(networkInfo);
-      print('Display Info in JSON format: $cpuInfoJson');
       return networkInfo; // Returning the original Map for further use
     }).handleError((error) {
       print('Error in Displ Streamay: $error');
@@ -113,10 +102,8 @@ class MobileTracker {
 
   static Stream<Map<String, dynamic>> get wifiInfoStream {
     return _wifiInfoChannel.receiveBroadcastStream().map((data) {
-      print('Wifi Info Data received: $data');
       final networkInfo = Map<String, dynamic>.from(data);
       final cpuInfoJson = jsonEncode(networkInfo);
-      print('Wifi Info in JSON format: $cpuInfoJson');
       return networkInfo; // Returning the original Map for further use
     }).handleError((error) {
       print('Error in Displ Streamay: $error');

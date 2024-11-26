@@ -66,14 +66,12 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     _cpuInfoSubscription = MobileTracker.cpuInfoStream.listen((cpuUsageInfo) {
       // _deviceInfoStore.updateBatteryInfo(batteryInfo);
-      print('check cpu usage info data before update $cpuUsageInfo');
 
       _deviceInfoStore.updateCpuUsageInfo(cpuUsageInfo);
     });
 
     _memoryInfoSubscription =
         MobileTracker.memoryInfoStream.listen((memoryInfo) {
-      print('check memory info data before update $memoryInfo');
       _deviceInfoStore.updateMemoryInfo(memoryInfo);
 
       // _deviceInfoStore.updatememoryInfo(memoryInfo);
@@ -81,7 +79,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _deviceInfoSubscription =
         MobileTracker.deviceInfoStream.listen((deviceInfo) {
-      print('check deviceInfo info data before update $deviceInfo');
       _deviceInfoStore.updateDeviceInfo(deviceInfo);
 
       // _deviceInfoStore.updatememoryInfo(memoryInfo);
@@ -89,7 +86,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _thermalInfoSubscription =
         MobileTracker.thermalInfoStream.listen((thermalInfo) {
-      print('check thermal info data before update $thermalInfo');
       // _deviceInfoStore.updateDeviceInfo(thermalInfo);
 
       _deviceInfoStore.updateThermalInfo(thermalInfo);
@@ -127,10 +123,10 @@ class _HomeScreenState extends State<HomeScreen> {
     'Device',
     'Display',
     'Battery',
-    'Network',
+    // 'Network',
     'Cpu',
     'Memory',
-    'Camera',
+    // 'Camera',
     'Thermal',
   ];
 
@@ -147,10 +143,10 @@ class _HomeScreenState extends State<HomeScreen> {
               DeviceInfoScreen(),
               DisplayInfoScreen(),
               BatteryInfoScreen(),
-              NetworkInfoScreen(),
+              // NetworkInfoScreen(),
               CpuInfoScreen(),
               MemoryInfoScreen(),
-              const CameraInfoScreen(),
+              // const CameraInfoScreen(),
               ThermalInfoScreen(),
             ],
           ),

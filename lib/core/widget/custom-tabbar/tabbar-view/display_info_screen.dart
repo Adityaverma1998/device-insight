@@ -15,7 +15,7 @@ class DisplayInfoScreen extends StatelessWidget {
     return Observer(builder: (context) {
       return SingleChildScrollView(
         padding:
-        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+        const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

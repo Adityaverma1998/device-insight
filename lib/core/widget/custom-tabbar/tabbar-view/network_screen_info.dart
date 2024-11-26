@@ -17,6 +17,8 @@ class NetworkInfoScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.secondaryContainer,
+              borderRadius: BorderRadius.circular(8.0),
+
             ),
             child: SingleChildScrollView(
               child: Column(

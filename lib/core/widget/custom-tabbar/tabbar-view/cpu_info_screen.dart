@@ -14,27 +14,35 @@ class CpuInfoScreen extends StatelessWidget {
     return Observer(
         builder: (context) {
           return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.secondaryContainer,
+              borderRadius: BorderRadius.circular(8.0),
+
             ),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  RowTableDataWidget(label: 'Model', value: _deviceInfoStore.deviceInfo.model, isDivider: true),
-                  RowTableDataWidget(label: 'Manufacturer', value: _deviceInfoStore.deviceInfo.manufacturer, isDivider: true),
-                  RowTableDataWidget(label: 'Brand', value: _deviceInfoStore.deviceInfo.brand, isDivider: true),
-                  RowTableDataWidget(label: 'Board', value: _deviceInfoStore.deviceInfo.board, isDivider: true),
-                  RowTableDataWidget(label: 'Hardware', value: _deviceInfoStore.deviceInfo.hardware, isDivider: true),
-                  RowTableDataWidget(label: 'Host', value: _deviceInfoStore.deviceInfo.board, isDivider: true),
-                  RowTableDataWidget(label: 'Base', value: _deviceInfoStore.deviceInfo.board.toString(), isDivider: true),
-                  RowTableDataWidget(label: 'Android Device ID', value: _deviceInfoStore.deviceInfo.androidDeviceID, isDivider: true),
-                  RowTableDataWidget(label: 'Build Fingerprint', value: _deviceInfoStore.deviceInfo.buildFingerprint, isDivider: true),
-                  RowTableDataWidget(label: 'SDK INT', value: _deviceInfoStore.deviceInfo.sdkInt, isDivider: true),
-                  RowTableDataWidget(label: 'Tags', value: _deviceInfoStore.deviceInfo.tags, isDivider: true),
-                  RowTableDataWidget(label: 'Build Time', value: _deviceInfoStore.deviceInfo.buildFingerprint, isDivider: true),
-                  RowTableDataWidget(label: 'User', value: _deviceInfoStore.deviceInfo.user, isDivider: false),
+                  RowTableDataWidget(label: 'Processor', value: _deviceInfoStore.cpuUsageInfo.processor, isDivider: true),
+                  RowTableDataWidget(label: 'Process', value: _deviceInfoStore.cpuUsageInfo.process, isDivider: true),
+                  RowTableDataWidget(label: 'implementer', value: _deviceInfoStore.cpuUsageInfo.cpuImplementer, isDivider: true),
+                  RowTableDataWidget(label: 'Architecture', value: _deviceInfoStore.cpuUsageInfo.architecture, isDivider: true),
+                  RowTableDataWidget(label: 'Variant', value: _deviceInfoStore.cpuUsageInfo.cpuVariant, isDivider: true),
+                  RowTableDataWidget(label: 'Part', value: _deviceInfoStore.cpuUsageInfo.cpuPart, isDivider: true),
+                  RowTableDataWidget(label: 'Revision', value: _deviceInfoStore.cpuUsageInfo.revision.toString(), isDivider: true),
+                  RowTableDataWidget(label: 'Hardware', value: _deviceInfoStore.cpuUsageInfo.hardware, isDivider: true),
+                  RowTableDataWidget(label: 'Clock Speed', value: _deviceInfoStore.cpuUsageInfo.clockSpeed, isDivider: true),
+                  RowTableDataWidget(label: 'Cores', value: _deviceInfoStore.cpuUsageInfo.cores, isDivider: true),
+                  ..._deviceInfoStore.cpuUsageInfo.coreSpeeds.entries.map(
+                        (entry) => RowTableDataWidget(
+                      label: 'CPU ${entry.key}',
+                      value: entry.value,
+                      isDivider: true,
+                    ),
+                  ).toList(),
+                  RowTableDataWidget(label: 'BogoMIPS', value: _deviceInfoStore.cpuUsageInfo.bogoMIPS, isDivider: false),
+
 
                 ],
               ),

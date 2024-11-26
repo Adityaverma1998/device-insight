@@ -14,9 +14,11 @@ class SystemInfoScreen extends StatelessWidget {
     return Observer(
       builder: (context) {
         return Container(
+          // margin: const EdgeInsets.only(top:16.0),
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.secondaryContainer,
+              borderRadius: BorderRadius.circular(8.0),
           ),
           child: SingleChildScrollView(
             child: Column(
